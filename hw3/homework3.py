@@ -213,18 +213,18 @@ def generateValidation(allRatings, ratingsValid):
     # Both should have the same size as ratingsValid
     allBooks = set()
     allRead = set()
-    for user, book, rating in allRatings:
+    for (user, book, rating) in allRatings:
         allRead.add((user, book))
         allBooks.add(book)
     
     readValid = set()
-    for user, book, rating in ratingsValid:
+    for (user, book, rating) in ratingsValid:
         readValid.add((user, book))
 
     notRead = set()
     allBookList = list(allBooks)
 
-    for user, book in readValid:
+    for (user, book) in readValid:
         while True:
             random_book = random.choice(allBookList)
             if (user, random_book) not in allRead:
@@ -232,7 +232,6 @@ def generateValidation(allRatings, ratingsValid):
                 break
 
     return readValid, notRead
-
 
 # In[ ]:
 
@@ -259,6 +258,14 @@ def improvedStrategy(mostPopular, totalRead):
     return1 = set()
 
     # Same as above function, just find an item set that'll have higher accuracy
+
+    threshold = totalRead * 0.60 
+    
+    count = 0
+    for ic, i in mostPopular:
+        count += ic
+        return1.add(i)
+        if count > threshold: break
 
     return return1
 
@@ -293,6 +300,27 @@ def jaccardThresh(u,b,ratingsPerItem,ratingsPerUser):
     
     # Compute the similarity of the query item (b) compared to the most similar item in the user's history
     # Return true if the similarity is high or the item is popular
+
+    users_who_read_b = set([user for (user, rating) in ratingsPerItem.get(b, [])])
+    
+    books_read_by_u = ratingsPerUser.get(u, [])
+    
+    maxSim = 0
+    
+    for (b_prime, r) in books_read_by_u:
+        if b == b_prime: continue
+            
+        users_who_read_b_prime = set([user for (user, rating) in ratingsPerItem.get(b_prime, [])])
+        
+        numer = len(users_who_read_b.intersection(users_who_read_b_prime))
+        denom = len(users_who_read_b.union(users_who_read_b_prime))
+        
+        sim = 0
+        if denom > 0:
+            sim = numer / denom
+            
+        if sim > maxSim:
+            maxSim = sim
     
     if maxSim > 0.013 or len(ratingsPerItem[b]) > 40: # Keep these thresholds as-is
         return 1
@@ -331,6 +359,13 @@ def featureCat(datum, words, wordId, wordSet):
 
     # Compute features counting instance of each word in "words"
     # after converting to lower case and removing punctuation
+    punctuation = set(string.punctuation)
+    r = ''.join([c for c in datum['review_text'].lower() if c not in punctuation])
+
+    for w in r.split():
+        if w in wordSet:
+            idx = wordId[w]
+            feat[idx] += 1
     
     feat.append(1) # offset (put at the end)
     return feat
@@ -344,6 +379,35 @@ def betterFeatures(data):
     # Produce better features than those from the above question
     # Return matrix (each row is the feature vector for one entry in the dataset)
 
+    wordCount = defaultdict(int)
+    punctuation = set(string.punctuation)
+    
+    for d in data:
+        r = ''.join([c for c in d['review_text'].lower() if not c in punctuation])
+        for w in r.split():
+            wordCount[w] += 1
+            
+    counts = [(wordCount[w], w) for w in wordCount]
+    counts.sort()
+    counts.reverse()
+    
+    NW = 2000 
+    words = [x[1] for x in counts[:NW]]
+    
+    wordId = dict(zip(words, range(len(words))))
+    wordSet = set(words)
+    
+    X = []
+    for d in data:
+        feat = [0] * len(words)
+        r = ''.join([c for c in d['review_text'].lower() if not c in punctuation])
+        
+        for w in r.split():
+            if w in wordSet:
+                feat[wordId[w]] += 1
+                
+        feat.append(1)
+        X.append(feat)
     return X
 
 
@@ -362,7 +426,7 @@ def writePredictionsCategory(pred_test):
     predictions = open("predictions_Category.csv", 'w')
     pos = 0
 
-    for l in open("pairs_Category.csv"):
+    for l in open("../datasets/pairs_Category.csv"):
         if l.startswith("userID"):
             predictions.write(l)
             continue
