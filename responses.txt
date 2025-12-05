@@ -1,0 +1,27 @@
+{
+  "submission_374648197": 
+    [(4.6, "I like the way the notebook is being written. It is neat and the markdown is clear. However, they speed up the voice too fast."),
+     (4.7, "I like their idea on they have on seperating different genres of the game. They explain well on why they choose only the top 20 genre as well."),
+     (4.8, "It's good and clear that they introduce what models they use first in the markdown and then go into the code explanation."),
+     (4.7, "It's great that they have consider the accuracy in different aspects as in false positie and false negative. This is something my team didn't think of. I also like the graph visualization they use."),
+     (4.5, "They have everything required mentioned and also compare the prior work to their work. Nice job!")],
+  "submission_374632282": 
+    [(4.5, "The Spotify idea is good and I like the way they appoarch it. They explain in detail on what they want to do. However, presentation sounds like reading off script which is less interactive."),
+     (4.8, "The slides are really well made and the graphs are nice and clear. Might be too many words on each slides tho."),
+     (4.7, "There are 6 models in total that they have tried! This is a lot and they explain each models one by one in detail and how they did it."),
+     (4.6, "I like the evaluation part which they discovered many things that they did well and some parts that they could've done better. And again, the graphs are really cool."),
+     (4.5, "Related work is good. However, they didn't compare with their work. But, they have conclusion on future work, which is great.")],
+  "submission_374320792": 
+    [(4.6, "I like that they explain why they chose this topic and relate it to their own experience. The voice and breathe are steady and perfrom well presentation."),
+     (4.7, "The slides is well created and the visualization is good and well presented. Also talked about the preprocessing data and the overall workflow."),
+     (4.5, "It'd be better to jump out from the slides and walk us through the code instead of having screenshots of code. But they still explain well."),
+     (4.8, "I like that they notice what they are not doing so good on. Also there are many visualization to support what they are trying to talk about. Accuracy rate having 91% is high! Well donw!"),
+     (4.4, "Only one prior work is presented, maybe would be better to have more.")],
+  "submission_374658405": 
+    [(4.4, "Cool topic and well structure on explaining what they want to do. But being talked as third topic so the flow didn't feel that smooth."),
+     (4.5, "Talked about how they process the data to match what they want to do. They have visualization to support too. Have all the basic features they can do analysis on."),
+     (4.7, "Talked in detail on what models are used and walk through the code in details."),
+     (4.5, "I like the performance summary table. However, the way they present their work is to paste the code to the slides and the color of the code isn't that visible. Feels kinda rusty."),
+     (4.6, "The related works are being talked about. It's cool that they talk about their results first and compare their work to prior work first before stepping into the details.")],
+  "ranking": ["submission_374632282", "submission_374648197", "submission_374320792", "submission_374658405"]
+}
